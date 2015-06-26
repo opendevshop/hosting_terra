@@ -1,0 +1,5 @@
+name = Hosting: Terra
+description = Terra for Aegir
+core = 6.x
+package = Hosting
+dependencies[] = hosting
