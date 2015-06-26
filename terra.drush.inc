@@ -74,8 +74,7 @@ function drush_terra_pre_hosting_task() {
     }
 
     // 2. Add environment.
-    $path = d($site->title)->platform->root;
-    $cmd = "terra environment:add {$project->name} {$environment->name} $path";
+    $cmd = "terra environment:add {$project->name} {$environment->name} {$environment->repo_root} /{$project->drupal_path}";
     drush_log(dt("[TERRA] Running $cmd"));
     if (d()->server->shell_exec($cmd)) {
       $output = implode("\n", drush_shell_exec_output());
