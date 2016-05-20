@@ -1,6 +1,6 @@
 <?php
 /**
- * @file devshop_rancher.module
+ * @file devshop_terra.module
  */
 
 /**
@@ -27,14 +27,14 @@ function node_hosting_service() {
  * Implements hook_hosting_servers_titles_alter().
  *
  * Used to make the Docker servers appear in the Web Server select list.
- */
-function hosting_terra_hosting_servers_titles_alter(&$servers, $service) {
-
-  // Load up all rancher agent servers.
-  if ($service == 'http' || $service == 'db') {
-    $result = db_query("SELECT n.nid, n.title FROM {node} n INNER JOIN {hosting_service} s ON n.vid = s.vid AND s.available = 1 AND s.service = '%s'", 'rancher');
-    while ($server = db_fetch_object($result)) {
-      $servers[$server->nid] = $server->title;
-    }
-  }
-}
+// */
+//function hosting_terra_hosting_servers_titles_alter(&$servers, $service) {
+//
+//  // Load up all rancher agent servers.
+//  if ($service == 'http' || $service == 'db') {
+//    $result = db_query("SELECT n.nid, n.title FROM {node} n INNER JOIN {hosting_service} s ON n.vid = s.vid AND s.available = 1 AND s.service = '%s'", 'rancher');
+//    while ($server = db_fetch_object($result)) {
+//      $servers[$server->nid] = $server->title;
+//    }
+//  }
+//}
