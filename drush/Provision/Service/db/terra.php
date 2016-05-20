@@ -15,11 +15,11 @@ class Provision_Service_db_terra extends Provision_Service_db {
   function verify_server_cmd() {
     drush_log('Provision_Service_db_terra::verify_server_cmd()', 'ok');
 
-    drush_log('[TERRA] Running `terra status`:');
+    drush_log('[TERRA] Running `terra status`:', 'devshop_log');
 
     if ($this->server->shell_exec('terra status')) {
       $output = drush_shell_exec_output();
-      drush_log('[TERRA] :' . implode("\n", $output), 'ok');
+      drush_log('[TERRA] :' . implode("\n", $output), 'devshop_log');
     }
     else {
       $output = drush_shell_exec_output();
