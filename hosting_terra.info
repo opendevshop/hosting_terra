@@ -1,5 +1,5 @@
-name = Hosting: Terra
-description = Terra for Aegir
-core = 6.x
-package = Hosting
-dependencies[] = hosting
+name = DevShop Terra
+description = Terra integration for DevShop
+core = 7.x
+package = DevShop
+dependencies[] = devshop_projects
