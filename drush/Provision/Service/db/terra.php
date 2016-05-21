@@ -20,25 +20,27 @@ class Provision_Service_db_terra extends Provision_Service_db {
    * Verifies database connection and commands
    */
    function create_site_database($creds = array()) {
-     $project = d()->project;
-     $environment = d()->environment;
+     $project_name = d()->project;
+     $environment_name = d()->environment;
 
-     $project_object =  d("@project_{$project}");
-     $environment_object = (object) $project_object->project['environments'][$environment];
+     $project = (object) d("@project_{$project_name}")->project;
+     $environment = (object) $project->environments[$environment_name];
 
-     $output = d()->db_server->service('Process')->process("terra status {$project}", '', "Install");
-     if (strpos($output, $project_object->project->git_url) === FALSE) {
-      $cmd = "terra app:add --description='Added by DevShop' {$project} {$project_object->project->git_url} ";
+     $output = d()->db_server->service('Process')->process("terra status {$project_name}", '', "Install");
+     if (strpos($output, $project->git_url) === FALSE) {
+       $web_server = d()->platform->web_server->remote_host;
+
+      $cmd = "terra app:add {$project_name} {$project->git_url} --host='$web_server' --description='Added by DevShop'";
       d()->db_server->service('Process')->process($cmd, '', "Install");
     }
 
      // 2. Add environment.
-     $environment_object = (object) d("@project_{$project}")->project['environments'][$environment];
-     $cmd = "terra environment:add {$project} {$environment} {$environment_object->repo_root}";
+     $environment = (object) d("@project_{$project_name}")->project['environments'][$environment_name];
+     $cmd = "terra environment:add {$project_name} {$environment_name} {$environment->repo_root}";
      d()->db_server->service('Process')->process($cmd, '', "Terra");
 
      // 3. enable environment.
-     $cmd = "terra environment:enable {$project_object->project->name} {$environment_object->name}";
+     $cmd = "terra environment:enable {$project->project->name} {$environment->name}";
     d()->db_server->service('Process')->process($cmd, '', "Terra");
 
   }
