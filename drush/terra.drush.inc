@@ -63,39 +63,16 @@ function drush_terra_pre_hosting_task() {
       drush_log("[TERRA] App {$project->name} not found.  Creating...", 'devshop_log');
 
       $cmd = "terra app:add {$project->name} {$project->git_url} --description='Added by DevShop'";
-      drush_log(dt("[TERRA] Running $cmd"), 'devshop_log');
-      if (d()->server->shell_exec($cmd)) {
-        $output = implode("\n", drush_shell_exec_output());
-        drush_log('[TERRA] :' . $output, 'devshop_log');
-      }
-      else {
-        return drush_set_error('TERRA_APP_FAILED', '[TERRA] Unable to create the app.');
-      }
+      d()->server->service('Process')->process($cmd, '', "Terra");
     }
 
     // 2. Add environment.
     $cmd = "terra environment:add {$project->name} {$environment->name} {$environment->repo_root} /{$project->drupal_path}";
-    drush_log(dt("[TERRA] Running $cmd"), 'devshop_log');
-    if (d()->server->shell_exec($cmd)) {
-      $output = implode("\n", drush_shell_exec_output());
-      drush_log(dt("[TERRA] $output"), 'devshop_log');
-    }
-    else {
-      $output = implode("\n", drush_shell_exec_output());
-      drush_log(dt("[TERRA] $output"), 'devshop_log');
-      return drush_set_error('TERRA_APP_FAILED', '[TERRA] Unable to create the environment.');
-    }
+    d()->server->service('Process')->process($cmd, '', "Terra");
 
     // 3. enable environment.
     $cmd = "terra environment:enable {$project->name} {$environment->name}";
-    drush_log(dt("[TERRA] Running $cmd"));
-    if (d()->server->shell_exec($cmd)) {
-      $output = implode("\n", drush_shell_exec_output());
-      drush_log(dt("[TERRA] $output"), 'devshop_log');
-    }
-    else {
-      return drush_set_error('TERRA_APP_FAILED', '[TERRA] Unable to enable the environment.');
-    }
+    d()->server->service('Process')->process($cmd, '', "Terra");
 
     // 4. Figure out how to install drupal automatically
 
