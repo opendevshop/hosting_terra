@@ -13,7 +13,7 @@ class Provision_Service_db_terra extends Provision_Service_db {
    * Verifies database connection and commands
    */
   function verify_server_cmd() {
-    d()->service('Process')->process('terra status', '', "Terra");
+    //d()->service('Process')->process('terra status', '', "Terra");
   }
 
   /**
